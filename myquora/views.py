@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from myquora.models import Question, Category
 
 def home(request):
-    questions = question.objects.all()
+    questions = Question.objects.all()
     categories = Category.objects.all()
     context = {
         'questions': questions,
@@ -38,3 +38,13 @@ def category_questions(request, category_id, category_slug):
         'questions': questions
     }
     return render(request, 'myquora/category_questions.html', context)
+    '''
+def answer_list(request):
+    questions = Question.objects.all()
+    categories = Category.objects.all()
+    context = {
+        'questions': questions,
+        'categories': categories
+    }
+    return render(request, 'myquora/question_list.html', context)
+    '''
