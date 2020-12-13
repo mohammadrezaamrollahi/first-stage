@@ -16,16 +16,17 @@ class Category(models.Model):
         return self.title
 
 class Question(models.Model):
-    PUBLISH_STATUS = (
-        ('draft', 'پیش‌نویس'),
-        ('publish', 'انتشار‌یافته')
-    ) 
+    # PUBLISH_STATUS = (
+    #     ('draft', 'پیش‌نویس'),
+    #     ('publish', 'انتشار‌یافته')
+    # ) 
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='نویسنده', related_name='questions')
     question_title = models.CharField(max_length=200, verbose_name = "عنوان سوال")
     question_text = models.TextField(max_length=3000, verbose_name = "متن سوال")
     slug = models.SlugField(unique = True , verbose_name = "نامك")
+    tag = models.ManyToManyField(Tag, blank=True, verbose_name="برچسب")
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='دسته‌بندی', related_name='questions')
-    status = models.CharField(max_length=15, verbose_name='وضعیت انتشار', choices=PUBLISH_STATUS, default='draft')
+    # status = models.CharField(max_length=15, verbose_name='وضعیت انتشار', choices=PUBLISH_STATUS, default='draft')
     created = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
     updated = models.DateTimeField(auto_now=True, verbose_name='آخرین ویرایش')
     #number_like = models.IntegerField()
@@ -49,14 +50,22 @@ class Answer(models.Model):
         verbose_name = ("جواب")
         verbose_name_plural = ("جواب ها")
         
-    # def __str__(self):
-    #     return self.content
-'''
-class tag (models.Model):
-    Title = models.CharField(max_length=500 , unique = True , Verbose_name = "دسته بندي")
-    slug = models.SlugField(unique = True , verbose_name = "نامك")
-    '''
+    def __str__(self):
+        return self.content
 
+
+class Tag(models.Model):
+    tag_name = models.CharField(max_length=15, blank=True, verbose_name="برچسب ها")
+    created_time = models.DateTimeField(auto_now_add=True, null=True, verbose_name="تاریخ ایجاد")
+    updated_time = models.DateTimeField(auto_now=True, null=True, verbose_name="تاریخ به روزرسانی")
+
+    class Meta:
+        db_table = "tags"
+        verbose_name = "برچسب"
+        verbose_name_plural = "برچسب ها"
+
+    def __str__(self):
+        return self.tag_name
     
 
 
