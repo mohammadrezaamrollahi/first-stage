@@ -8,5 +8,5 @@ urlpatterns = [
     path('questions/', views.question_list, name='questions-list'),
     path('question/<str:slug>/', views.question_detail, name='question-detail'),
     path('question/<str:slug>/', views.question_detail, name='question-detail'),
-    # path('category/<int:category_id>/<str:category_slug>/questions/', views.category_questions, name='category-questions'),
+    path('add_question', views.add_question, name='add_question'),
 ]

@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.conf import settings
 
 
 class Tag(models.Model):
@@ -12,6 +11,8 @@ class Tag(models.Model):
         db_table = "tags"
         verbose_name = "برچسب"  
         verbose_name_plural = "برچسب ها"
+        ordering = ('created_time',)
+
 
     def __str__(self):
         return self.tag_name
@@ -25,7 +26,7 @@ class Category(models.Model):
     class Meta:
         verbose_name = 'دسته‌بندی'
         verbose_name_plural = 'دسته‌بندی‌ها'
-
+        ordering = ('created',)
 
     def __str__(self):
         return self.title
@@ -38,7 +39,7 @@ class Question(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='نویسنده', related_name='questions')
     question_title = models.CharField(max_length=200, verbose_name = "عنوان سوال")
     question_text = models.TextField(max_length=3000, verbose_name = "متن سوال")
-    slug = models.SlugField(unique = True , verbose_name = "نامك")
+    slug = models.SlugField(max_length=200 ,unique = True ,allow_unicode=True, verbose_name = "نامك")
     tag_question = models.ManyToManyField(Tag, verbose_name="برچسب")
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='دسته‌بندی', related_name='questions')
     # status = models.CharField(max_length=15, verbose_name='وضعیت انتشار', choices=PUBLISH_STATUS, default='draft')
@@ -46,9 +47,15 @@ class Question(models.Model):
     updated = models.DateTimeField(auto_now=True, verbose_name='آخرین ویرایش')
     #number_like = models.IntegerField()
     #number_report = models.IntegerField()
+
+    def get_user_full_name(self):
+        return self.author.get_full_name()
+    get_user_full_name.short_descriptin = "پرسشگر"
+
     class Meta:
-        verbose_name = ("سوال")
-        verbose_name_plural = ("سوال ها")
+        verbose_name = "سوال"
+        verbose_name_plural = "سوال ها"
+        ordering = ('created',)
         
     def __str__(self):
         return self.question_title
@@ -64,6 +71,7 @@ class Answer(models.Model):
     class Meta:
         verbose_name = ("جواب")
         verbose_name_plural = ("جواب ها")
+        ordering = ('created',)
         
     def __str__(self):
         return self.content

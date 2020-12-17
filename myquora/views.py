@@ -9,6 +9,7 @@ def home(request):
         'categories': categories
     }
     return render(request, 'myquora/home_page.html', context)
+    
 
 def question_list(request):
     questions = Question.objects.all()
@@ -48,3 +49,19 @@ def answer_list(request):
     }
     return render(request, 'myquora/question_list.html', context)
     '''
+
+
+    def add_question(request):
+    if request.method == 'POST':
+        question_form = QuestionForm(request.POST)
+        if question_form.is_valid():
+            curent_user = request.user
+            cleaned_data = question_form.cleaned_data
+            question = Question(title=cleaned_data['title'], text=cleaned_data['text'], category=cleaned_data['category'], user=curent_user)
+            print('user id: ', curent_user.id)
+            question.save()
+            return redirect('questions:all_questions')
+
+    else:
+        question_form = QuestionForm()
+        return render(request,'questions/posts/add_question.html', {'QuestionForm': question_form})
