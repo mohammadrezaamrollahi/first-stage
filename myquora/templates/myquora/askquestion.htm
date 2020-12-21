@@ -1,0 +1,17 @@
+{% extends 'base.htm' %}
+
+{% block content %}
+
+    <div class="container border rounded text-right" style="margin-top:50px">
+        <h2>سوالت رو بپرس</h2>
+        <div class="row" >
+            <div class="col-md-12">
+                    <form method="POST"> {%csrf_token%}
+                      {{form.as_p}}
+                      <input type="submit" value="ثبت"/>
+                    </form>    
+
+            </div>
+        </div>
+    </div>         
+{% endblock  %}

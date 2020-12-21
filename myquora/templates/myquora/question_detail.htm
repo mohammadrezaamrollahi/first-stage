@@ -1,0 +1,24 @@
+{% extends 'layouts/base.htm' %}
+
+
+{% block content %}
+<a href="{%url 'myquora:question-list'%}" class="btn btn-info mb-2">تمامی سوال ها</a>
+<!-- <div class="d-flex"> -->
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">{{question.question_title}}</h5>
+        <p class="card-text">{{question.question_text}}</p>
+    </div>
+    </div>
+    
+<!-- </div> -->
+
+
+
+
+
+
+
+    
+{% endblock %}
+    

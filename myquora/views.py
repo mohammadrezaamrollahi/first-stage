@@ -8,7 +8,7 @@ def home(request):
         'questions': questions,
         'categories': categories
     }
-    return render(request, 'myquora/home_page.html', context)
+    return render(request, 'myquora/home.htm', context)
     
 
 def question_list(request):
@@ -18,7 +18,7 @@ def question_list(request):
         'questions': questions,
         'categories': categories
     }
-    return render(request, 'myquora/question_list.html', context)
+    return render(request, 'myquora/question_list.htm', context)
 
 def question_detail(request, slug):
     question = Question.objects.get(slug=slug)
@@ -27,18 +27,18 @@ def question_detail(request, slug):
         'question': question,
         'categories': categories
     }
-    return render(request, 'myquora/question_detail.html', context)
+    return render(request, 'myquora/question_detail.htm', context)
 
-def category_questions(request, category_id, category_slug):
+def category_questions(request,slug):
     categories = Category.objects.all()
-    category = categories.get(id=category_id, slug=category_slug)
+    category = categories.get(slug=slug)
     questions = category.questions.all()
     context = {
         'categories': categories,
         'category': category,
-        'questions': questions
+        'questions':questions
     }
-    return render(request, 'myquora/category_questions.html', context)
+    return render(request, 'myquora/category_questions.htm', context)
     '''
 def answer_list(request):
     questions = Question.objects.all()
@@ -51,17 +51,15 @@ def answer_list(request):
     '''
 
 
-    def add_question(request):
-    if request.method == 'POST':
-        question_form = QuestionForm(request.POST)
-        if question_form.is_valid():
-            curent_user = request.user
-            cleaned_data = question_form.cleaned_data
-            question = Question(title=cleaned_data['title'], text=cleaned_data['text'], category=cleaned_data['category'], user=curent_user)
-            print('user id: ', curent_user.id)
-            question.save()
-            return redirect('questions:all_questions')
+def ask_question(request):
+
+    if request.method == "POST":
+        form = DisplayForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("../")
 
     else:
-        question_form = QuestionForm()
-        return render(request,'questions/posts/add_question.html', {'QuestionForm': question_form})
+        form = DisplayForm()    
+
+    return render(request, 'myquora/askquestion.htm', {'form':form})

@@ -75,6 +75,9 @@ class Answer(models.Model):
         
     def __str__(self):
         return self.content
+    def get_user_full_name(self):
+        return self.author.get_full_name()
+    get_user_full_name.short_descriptin = "جواب دهنده"
 
 
 

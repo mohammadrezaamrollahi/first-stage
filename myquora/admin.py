@@ -1,5 +1,5 @@
 from django.contrib import admin
-from myquora.models import Question , Category , Tag
+from myquora.models import Answer , Question , Category , Tag 
 
 
 @admin.register(Question)
@@ -8,6 +8,14 @@ class QuestionAdmin(admin.ModelAdmin):
     list_filter = ('updated',)
     search_fields =('question_title',)
     prepopulated_fields = {"slug": ("question_title",)}
+
+@admin.register(Answer)
+class AnswerAdmin(admin.ModelAdmin):
+    list_display = ["question_id","get_user_full_name", "created", "updated"]
+    list_filter = ('updated',)
+    search_fields =('question_id',)
+    prepopulated_fields = {"slug": ("question_id",)}
+    
 
 
 @admin.register(Category)
