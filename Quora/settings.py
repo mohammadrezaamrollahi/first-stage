@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'myquora.apps.MyquoraConfig',
     'jalali_date',
+    'ckeditor',
 ]
 JALALI_DATE_DEFAULTS = {
    'Strftime': {

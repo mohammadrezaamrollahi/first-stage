@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from ckeditor.fields import RichTextField
 
 
 class Tag(models.Model):
@@ -38,7 +39,8 @@ class Question(models.Model):
     # ) 
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='نویسنده', related_name='questions')
     question_title = models.CharField(max_length=200, verbose_name = "عنوان سوال")
-    question_text = models.TextField(max_length=3000, verbose_name = "متن سوال")
+    # question_text = models.TextField(max_length=3000, verbose_name = "متن سوال")
+    question_text = RichTextField(blank=True , null=True , verbose_name = "متن سوال")
     slug = models.SlugField(max_length=200 ,unique = True ,allow_unicode=True, verbose_name = "نامك")
     tag_question = models.ManyToManyField(Tag, verbose_name="برچسب")
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='دسته‌بندی', related_name='questions')
@@ -67,7 +69,7 @@ class Answer(models.Model):
     updated = models.DateTimeField(auto_now=True, verbose_name='آخرین ویرایش')
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='نویسنده', related_name='answers')
     #votes = models.IntegerField(default=0)
-    content = models.TextField(max_length=3000, verbose_name = "متن جواب")
+    content = RichTextField(verbose_name = "متن جواب")
     class Meta:
         verbose_name = ("جواب")
         verbose_name_plural = ("جواب ها")

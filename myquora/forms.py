@@ -13,7 +13,6 @@ from myquora.models import Question , Category
 #     body = forms.CharField(max_length=5000, required=False)
 
 class QuestionForm(forms.ModelForm):
-    
     class Meta:
         model = Question
         exclude = ('created','updated',)
