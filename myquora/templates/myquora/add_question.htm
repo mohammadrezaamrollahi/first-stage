@@ -1,0 +1,18 @@
+{% extends 'layouts/base.htm' %}
+
+
+{% block content %}
+
+<a href="{% url 'myquora:question-list' %}" class="btn btn-info mb-2">تمامی سوالات</a>
+
+<div class="d-flex justify-content-center">  
+    <div class="col-md-6">
+        <form method='POST' novalidate>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="افزودن">
+        </form>
+    </div>
+</div>
+    
+{% endblock %}

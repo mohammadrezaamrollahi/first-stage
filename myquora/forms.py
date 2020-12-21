@@ -13,7 +13,10 @@ from myquora.models import Question , Category
 #     body = forms.CharField(max_length=5000, required=False)
 
 class QuestionForm(forms.ModelForm):
+    
     class Meta:
         model = Question
-        fields = ('question_title', 'question_text', 'category','tag_question')
+        exclude = ('created','updated',)
+
+
 
