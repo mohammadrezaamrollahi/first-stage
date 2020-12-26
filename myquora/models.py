@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
+from django.urls import reverse
+from django.utils.text import slugify
+
 
 
 class Tag(models.Model):
@@ -49,6 +52,15 @@ class Question(models.Model):
     updated = models.DateTimeField(auto_now=True, verbose_name='آخرین ویرایش')
     #number_like = models.IntegerField()
     #number_report = models.IntegerField()
+    
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.question_title, allow_unicode=True)
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse("questions:question_detail", kwargs={"slug": self.slug})
 
     def get_user_full_name(self):
         return self.author.get_full_name()

@@ -1,21 +1,21 @@
 from django import forms
-from myquora.models import Question , Category
-
-# class QuestionForm(forms.ModelForm):
-#     class Meta:
-#         model = Question
-#         fields = ["question_title", "question_text", "question_category"]
-
-
-
-# class QuestionForm(forms.ModelForm):
-#     title = forms.CharField(max_length=150, required=True)
-#     body = forms.CharField(max_length=5000, required=False)
+from myquora.models import Question , Category , Tag
 
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
-        exclude = ('created','updated',)
+        exclude = ('author' ,'created','updated',)
 
+
+class TagForm(forms.ModelForm):
+    class Meta:
+        model = Tag
+        exclude = ('created_time','updated_time' ,)
+
+
+# class AnswerForm(forms.ModelForm):
+#     class Meta:
+#         model = Answer
+#         pass
 
 
