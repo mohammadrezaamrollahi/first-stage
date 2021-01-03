@@ -6,7 +6,7 @@
 <div class="d-flex flex-column">
     
     {% for question in questions %}
-        <h5 class="card-title"><a href="{% url 'myquora:question-detail'  question.slug %}" class="link">{{question.question_title}}</a></h5>
+        <h5 class="card-title"><a href="{% url 'myquora:question-detail'  question.id %}" class="link">{{question.question_title}}</a></h5>
           
     {% endfor %}
     

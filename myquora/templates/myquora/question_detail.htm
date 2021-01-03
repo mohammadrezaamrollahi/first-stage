@@ -8,17 +8,39 @@
     <div class="card-body">
         <h5 class="card-title">{{question.question_title}}</h5>
         <p class="card-text">{{question.question_text}}</p>
+   
+    <form action="{% url 'myquora:question_like' question.id %}"
+    method="POST">
+    {% csrf_token %}
+    {% if liked %}
+        <button type="submit", name="question_id", value="{{ question.id }}" class="btn btn-success float-right btn-sm active">دوست نداشتن<span class="badge">{{ total_likes }}</span></button>
+    {% else %}
+        <button type="submit", name="question_id", value="{{ question.id }}" class="btn btn-outline-success float-right btn-sm">پسندیدن<span class="badge">{{ total_likes }}</span></button>
+    {% endif %}
+    </form>
     </div>
     </div>
-    
-<!-- </div> -->
+    <a href="{%url 'myquora:create-answer' question.id%}" class="btn btn-info mb-2">پاسخ سوال</a>
 
 
 
+<div class="box">
+    <div class="container">
+        <h1  class="text-center" >پاسخ کاربران</h1>
+    </div>
+</div>
 
+{% for answer in question.answers.all %}
+    <div class="block">
+        <div class="box">
 
+            <div class="container">
+                <p>{{ answer.content }}</p>
+            </div>
+        </div>
+    </div>
 
-
+    {% endfor %}
     
 {% endblock %}
     
