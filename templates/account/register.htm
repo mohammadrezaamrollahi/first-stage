@@ -1,0 +1,15 @@
+{% extends 'layouts/base.htm' %}
+{% block content %}
+<h1>لطفا کاربری خودرا بسازید</h1>
+
+<div class="d-flex justify-content-center">  
+    <div class="col-md-6">
+        <form method='POST' novalidate>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="افزودن">
+        </form>
+    </div>
+</div>
+{% endblock %}
+

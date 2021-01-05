@@ -11,6 +11,8 @@
           <h5 class="card-title"><a href="{% url 'myquora:question-detail'  question.id %}" class="link">{{question.question_title}}</a></h5>
           <h6 class="card-subtitle mb-2 text-muted">{{question.category}}</h6>
           <p class="card-text">{{ question.body }}</p>
+          <!-- برای تگ از حلقه استفاده شود تا تمامی تگ ها نمایش پیداکندtags -->
+          <span class="btn btn-danger btn-sm">{{question.category}}</span> 
         </div>
       </div>
     {% endfor %}

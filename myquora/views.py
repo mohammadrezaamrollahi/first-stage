@@ -4,7 +4,7 @@ from .forms import QuestionForm ,AnswerForm
 from django.template.defaultfilters import slugify
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
-from django.views.generic import DetailView
+from django.views.generic import DetailView , ListView
 
 
 
@@ -58,41 +58,14 @@ def category_questions(request,slug):
         'questions':questions
     }
     return render(request, 'myquora/category_questions.htm', context)
-    '''
-def answer_list(request):
-    questions = Question.objects.all()
-    categories = Category.objects.all()
-    context = {
-        'questions': questions,
-        'categories': categories
-    }
-    return render(request, 'myquora/question_list.html', context)
-    '''
 
-# def add_question(request):
-#     if request.method == 'POST':
-#         form = QuestionForm(request.POST)
-#         if form.is_valid():
-#             cd = form.cleaned_data
-#             question = Question(question_title=cd['title'])
-#             if cd['slug']:
-#                 question.slug = slugify(cd['slug'])
-#             else:
-#                 question.slug = slugify(cd['title'])
-#             question.save()
-#             return redirect('myquora:question-list')
-#     else:
-#         form = QuestionForm()
-#         questions = Question.objects.all()
-#         categories = Category.objects.all()
-#         return render(request, 'myquora/add_question.htm', {'form': form, 'categories': categories})
 def add_question(request):
 
     if request.method == "POST":
         form = QuestionForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("/")
+            return redirect("myquora:home")
 
     else:
         form = QuestionForm()    
@@ -126,3 +99,37 @@ def create_answer(request, pk):
     else:
         form = AnswerForm
     return render(request,"myquora/create_answer.htm", {"questions": question,"new_answer": new_answer,"form": form,},)
+
+
+
+class MyQuestionList(LoginRequiredMixin, ListView):
+    model = Question
+    template_name = "myqoura/my_question.htm"
+    context_object_name = "myqoura"
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.filter(user__in=[self.request.user])
+
+
+def update_question(request, pk):
+    question = Question.objects.get(id=pk)
+    form = QuestionForm(instance=question)
+
+    if request.method == "POST":
+        form = QuestionForm(request.POST, instance=question)
+        if form.is_valid():
+            form.save()
+            return redirect("/")
+    context = {"form": form}
+    return render(request, "myquora/add_question.htm", context)
+
+
+def delete_question(request, pk):
+    question = Question.objects.get(id=pk)
+    if request.method == "POST":
+        question.delete()
+        return redirect("/")
+    context = {"item": question}
+    return render(request, "myquora/delete.htm", context)
+

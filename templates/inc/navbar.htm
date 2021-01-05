@@ -20,6 +20,16 @@
         <!-- <li class="nav-item">
           <a class="nav-link" href="{% url 'myquora:home' %}">سوال ها</a>
         </li> -->
-      
+        <div class="navbar-nav mr-auto">
+          <a href="{%url 'myquora:add-question'%}" class="btn btn-primary">سوالتو بپرس</a>
+        </div>
+        <div class="navbar-nav mr-auto">
+          {%if request.user.is_authenricated %}
+            <a href="#" class="btn btn-sm btn-warning">{{request.user.get_full_name}}</a>
+            <a href="{%url 'account:logout'%}" class="btn btn-sm btn-danger">خروج</a>
+          {% else %}
+            <a href="{%url 'account:login'%}" class="btn btn-sm btn-info">ورود</a>
+          {% endif %}
+        </div>
     </div>
   </nav>

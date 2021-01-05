@@ -40,7 +40,16 @@ INSTALLED_APPS = [
     'myquora.apps.MyquoraConfig',
     'jalali_date',
     'ckeditor',
+    'accounts.apps.AccountsConfig',
+    "crispy_forms",
+
 ]
+
+
+LOGIN_URL = "account:login"
+LOGIN_REDIRECT_URL = "myquora:home"
+
+# after add jajlidate
 JALALI_DATE_DEFAULTS = {
    'Strftime': {
         'date': '%y/%m/%d',

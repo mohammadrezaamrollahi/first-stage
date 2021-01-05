@@ -4,7 +4,7 @@ from myquora.models import Question , Category , Tag , Answer
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
-        exclude = ('created','updated',"likes",)
+        exclude = ('created','updated',"likes","slug",)
 
 
 class AnswerForm(forms.ModelForm):
@@ -13,10 +13,6 @@ class AnswerForm(forms.ModelForm):
         fields = ("content",)
 
 
-# class TagForm(forms.ModelForm):
-#     class Meta:
-#         model = Tag
-#         exclude = ('created_time','updated_time' ,)
 
 
 

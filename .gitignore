@@ -2,3 +2,5 @@ venv/
 __pychache__/
 *.pyc 
 *.sqlite3
+my_question.htm
+dashboard.htm
