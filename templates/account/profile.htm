@@ -1,0 +1,53 @@
+{% extends "layouts/base.htm"%}
+{% block title %}
+    Profile 
+{% endblock %}
+
+{% block content %}
+
+<style>
+    
+    div.content-section{
+        background: #ffffff;
+        padding: 10px 20px;
+        border: 1px solid #dddddd;
+        border-radius: 3px;
+        margin-bottom: 20px;
+    }   
+
+    div.account-img {
+        height: 125px;
+        width: 125px;
+        margin-right: 20px;
+        margin-bottom: 16px;
+    }
+
+    img.account-img{
+        width: 5rem;
+        height: 5rem;
+    }
+
+    h2.account-heading {
+        font-size: 2.5rem;
+    }
+
+    a{
+        text-decoration: none;
+        color: #999b84;
+    }
+
+</style>
+
+    <br>
+    <div class="content-section">
+        <div class="media">
+            <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+            <div class="media-body">
+                <h2 class="account-heading">{{ user.username }}</h2>
+                <p class="text-secondary">{{ user.email }}</p>
+            </div>
+            <a class="muted" href="{% url 'edit_profile' %}">Edit Profile</a>
+        </div>
+    </div>
+  
+{% endblock %}

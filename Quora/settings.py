@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     "crispy_forms",
 ]
 
-
 LOGIN_URL = "account:login"
 LOGIN_REDIRECT_URL = "myquora:home"
 
