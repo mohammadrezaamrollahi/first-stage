@@ -2,13 +2,14 @@ from django.db import models
 from django.contrib.auth.models import User
 from myquora.models import Category
 
-
 class Profile(models.Model):
+    GENDER_CHOICES =(
+        ("male", "مرد"), ("female", "زن")
+    )
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="نام کاربر")
-    GENDER_CHOICES = (("male", "مرد"), ("female", "زن"))
     gender = models.CharField(max_length=6,choices=GENDER_CHOICES,verbose_name="جنسیت",null=True,blank=True,)
     interests = models.ManyToManyField(Category, verbose_name="علاقه مندی ها", blank=True)
-    avatar = models.ImageField(upload_to="user/%Y/%m/%d", verbose_name="آواتار", null=True, blank=True)
+    avatar = models.ImageField(upload_to="media/%Y/%m/", verbose_name="آواتار", null=True, blank=True)
 
     class Meta:
         db_table = "profile"

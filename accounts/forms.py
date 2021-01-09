@@ -1,6 +1,6 @@
 from django import forms
-from django.contrib import admin
-from accounts.models import User
+from django.contrib.auth.models import User
+from .models import Profile
 
 
 class UserRegistrationForm(forms.ModelForm):
@@ -8,7 +8,7 @@ class UserRegistrationForm(forms.ModelForm):
     password2 = forms.CharField(label="Repeat password", widget=forms.PasswordInput)
 
     class Meta:
-        model = User
+        model = Profile
         fields = ("username", "first_name", "email",)
 
     def clean_password2(self):
@@ -20,11 +20,11 @@ class UserRegistrationForm(forms.ModelForm):
 
 class UserEditForm(forms.ModelForm):
     class Meta:
-        model = User
-        fields = ("first_name", "last_name", "email")
+        model = Profile
+        fields = ["email",]
 
 
 class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ("gender", "interests", "avatar")
+        fields = ["gender", "interests", "avatar",]

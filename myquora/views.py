@@ -4,7 +4,9 @@ from .forms import QuestionForm ,AnswerForm
 from django.template.defaultfilters import slugify
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
-from django.views.generic import DetailView , ListView
+from django.views.generic import DetailView , ListView , UpdateView , DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 
 
@@ -112,24 +114,12 @@ class MyQuestionList(LoginRequiredMixin, ListView):
         return qs.filter(user__in=[self.request.user])
 
 
-def update_question(request, pk):
-    question = Question.objects.get(id=pk)
-    form = QuestionForm(instance=question)
+class QuestionUpdateView(UpdateView):
+    model = Question
+    fields = '__all__'
+    success_url = reverse_lazy('myquora:home')
 
-    if request.method == "POST":
-        form = QuestionForm(request.POST, instance=question)
-        if form.is_valid():
-            form.save()
-            return redirect("/")
-    context = {"form": form}
-    return render(request, "myquora/add_question.htm", context)
-
-
-def delete_question(request, pk):
-    question = Question.objects.get(id=pk)
-    if request.method == "POST":
-        question.delete()
-        return redirect("/")
-    context = {"item": question}
-    return render(request, "myquora/delete.htm", context)
+class QuestionDeleteView(DeleteView):
+    model = Question
+    success_url = reverse_lazy('myquora:home')
 
