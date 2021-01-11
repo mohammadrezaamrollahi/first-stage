@@ -1,11 +1,12 @@
 from django.shortcuts import render, get_object_or_404 ,redirect
 from myquora.models import Question, Category
-from .forms import QuestionForm ,AnswerForm
+from .forms import QuestionForm ,AnswerForm , TagForm
 from django.template.defaultfilters import slugify
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import DetailView , ListView , UpdateView , DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from taggit.models import Tag
 
 
 
@@ -61,18 +62,35 @@ def category_questions(request,slug):
     }
     return render(request, 'myquora/category_questions.htm', context)
 
-def add_question(request):
 
+def add_question(request):
+    tag_form = TagForm()
+    form = QuestionForm()
     if request.method == "POST":
         form = QuestionForm(request.POST)
-        if form.is_valid():
-            form.save()
+        tag_form = TagForm(request.POST)
+        if form.is_valid() and tag_form.is_valid():
+            new_question = form.save()
+            new_tag = tag_form.save()
+            new_question.user = request.user
+            new_question.save()
             return redirect("myquora:home")
 
-    else:
-        form = QuestionForm()    
+    context = {"form": form, "tag_form": tag_form}
+    return render(request, "myquora/add_question.htm", context)
 
-    return render(request, 'myquora/add_question.htm', {'form':form})  
+# def add_question(request):
+
+#     if request.method == "POST":
+#         form = QuestionForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect("myquora:home")
+
+#     else:
+#         form = QuestionForm()    
+
+#     return render(request, 'myquora/add_question.htm', {'form':form})  
 
 
 def like_view(request, pk):

@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
 from django.urls import reverse
 from django.utils.text import slugify
+from taggit.managers import TaggableManager
 
 
 
@@ -41,20 +42,17 @@ class Category(models.Model):
         super().save(*args, **kwargs)
 
 class Question(models.Model):
-    # PUBLISH_STATUS = (
-    #     ('draft', 'پیش‌نویس'),
-    #     ('publish', 'انتشار‌یافته')
-    # ) 
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='نویسنده', related_name='questions')
     question_title = models.CharField(max_length=200, verbose_name = "عنوان سوال")
     question_text = RichTextField(blank=True , null=True , verbose_name = "متن سوال")
     slug = models.SlugField(max_length=200 ,unique = True ,allow_unicode=True, verbose_name = "نامك")
-    tag_question = models.ManyToManyField(Tag, verbose_name="برچسب")
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='دسته‌بندی', related_name='questions')
-    # status = models.CharField(max_length=15, verbose_name='وضعیت انتشار', choices=PUBLISH_STATUS, default='draft')
     created = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
     updated = models.DateTimeField(auto_now=True, verbose_name='آخرین ویرایش')
     likes = models.ManyToManyField(User, blank=True, related_name="likes")
+    tag = TaggableManager
+    question_tag = models.ManyToManyField(Tag, blank=True, verbose_name="برچسب")
+
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.question_title, allow_unicode= True)

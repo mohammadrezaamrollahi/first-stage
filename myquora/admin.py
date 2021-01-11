@@ -1,5 +1,5 @@
 from django.contrib import admin
-from myquora.models import Answer , Question , Category , Tag 
+from myquora.models import Answer , Question , Category 
 
 
 @admin.register(Question)
@@ -26,11 +26,11 @@ class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
 
 
-@admin.register(Tag)
-class TagAdmin(admin.ModelAdmin):
-    list_display = ["tag_name", "created_time", "updated_time"]
-    list_filter = ('updated_time',)
-    search_fields = ("tag_name",)
+# @admin.register(Tag)
+# class TagAdmin(admin.ModelAdmin):
+#     list_display = ["tag_name", "created_time", "updated_time"]
+#     list_filter = ('updated_time',)
+#     search_fields = ("tag_name",)
 
 
     

@@ -5,13 +5,34 @@
 
 <a href="{% url 'myquora:question-list' %}" class="btn btn-info mb-2">تمامی سوالات</a>
 
-<div class="d-flex justify-content-center">  
-    <div class="col-md-6">
-        <form method='POST' novalidate>
-            {% csrf_token %}
-            {{ form.media }}
-            {{ form.as_p }}
-            <input type="submit" value="افزودن">
+<div class="block" style="width: 1200px; margin-left: auto; margin-right: auto;">
+    <div class="box">
+        <form action="" method="post">
+             {% csrf_token %}
+                <div class="field">
+                    {{form.media}}
+                    <p style="line-height:4em"> {{form.question_title.label}} </p>
+                    <p>{{form.question_title}} </p>
+                    <p style="line-height:4em"> {{form.question_text.label}} {{form.question_text}} </p>
+                    <div class="columns">
+                        <div class="column">
+                            <p style="line-height:12em"> {{form.category.label}} {{form.category}} </p>
+                        </div>
+                        <div class="column">
+                            <p style="line-height:8em"> {{form.question_tag.label}} {{form.question_tag}} </p>
+                        </div>
+                    </div>
+<p style="line-height:4em">اگر برچسب مورد نظر خود را نیافتی ، در این جا آن را وارد کن </p>
+
+                    {{tag_form.as_p}}
+                </div>
+                    <div class="block">
+                        <div class="box">
+                            <div class="container"style="width: 400px; margin-left: auto; margin-right: auto;">
+                                <input type="submit" value="ثبت سوال" class="button is-success">
+                            </div>
+                        </div>
+                    </div>
         </form>
     </div>
 </div>

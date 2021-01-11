@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'accounts.apps.AccountsConfig',
     "crispy_forms",
+    'taggit',
 ]
 
 LOGIN_URL = "account:login"
