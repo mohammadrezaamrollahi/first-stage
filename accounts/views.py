@@ -2,6 +2,9 @@ from .forms import UserRegisterForm, UserEditForm
 from django.views.generic import CreateView,UpdateView, TemplateView
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 
 
@@ -11,8 +14,7 @@ class register(CreateView):
     success_url = reverse_lazy("account:login")
 
 
-
-class UserEditView(UpdateView):
+class UserEditView(LoginRequiredMixin,UpdateView):
     form_class = UserEditForm 
     template_name = "account/edit_profile.htm"
     success_url = reverse_lazy("profile")
@@ -20,8 +22,7 @@ class UserEditView(UpdateView):
     def get_object(self):
         return self.request.user
 
-
-class UserProfileView(TemplateView):
+class UserProfileView(LoginRequiredMixin,TemplateView):
     template_name = "account/profile.htm"
 
 

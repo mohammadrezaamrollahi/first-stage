@@ -7,6 +7,8 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import DetailView , ListView , UpdateView , DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from taggit.models import Tag
+from django.contrib.auth.decorators import login_required
+
 
 
 
@@ -32,7 +34,7 @@ def question_list(request):
     }
     return render(request, 'myquora/question_list.htm', context)
 
-class QuestionDetailView(DetailView):
+class QuestionDetailView(LoginRequiredMixin,DetailView):
     model = Question
     template_name = 'myquora/question_detail.htm'
 
@@ -62,7 +64,7 @@ def category_questions(request,slug):
     }
     return render(request, 'myquora/category_questions.htm', context)
 
-
+@login_required()
 def add_question(request):
     tag_form = TagForm()
     form = QuestionForm()
@@ -78,21 +80,9 @@ def add_question(request):
 
     context = {"form": form, "tag_form": tag_form}
     return render(request, "myquora/add_question.htm", context)
+ 
 
-# def add_question(request):
-
-#     if request.method == "POST":
-#         form = QuestionForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect("myquora:home")
-
-#     else:
-#         form = QuestionForm()    
-
-#     return render(request, 'myquora/add_question.htm', {'form':form})  
-
-
+@login_required()
 def like_view(request, pk):
     question = get_object_or_404(Question, id=request.POST.get('question_id'))
     liked = False
@@ -104,6 +94,9 @@ def like_view(request, pk):
         liked = True
     return HttpResponseRedirect(reverse("myquora:question-detail", args=[str(pk)]))
 
+
+
+@login_required()
 def create_answer(request, pk):
     question = get_object_or_404(Question, id=pk)
     new_answer = None
@@ -131,13 +124,13 @@ class MyQuestionList(LoginRequiredMixin, ListView):
         qs = super().get_queryset()
         return qs.filter(user__in=[self.request.user])
 
-
-class QuestionUpdateView(UpdateView):
+class QuestionUpdateView(LoginRequiredMixin,UpdateView):
     model = Question
     fields = '__all__'
     success_url = reverse_lazy('myquora:home')
 
-class QuestionDeleteView(DeleteView):
+
+class QuestionDeleteView(LoginRequiredMixin,DeleteView):
     model = Question
     success_url = reverse_lazy('myquora:home')
 
