@@ -1,10 +1,10 @@
 {% extends 'layouts/base.htm' %}
+{% load crispy_forms_tags %}
 
 
 {% block content %}
 
 <a href="{% url 'myquora:question-list' %}" class="btn btn-info mb-2">تمامی سوالات</a>
-
 <div class="block" style="width: 1200px; margin-left: auto; margin-right: auto;">
     <div class="box">
         <form action="" method="post">

@@ -74,7 +74,7 @@ def add_question(request):
         if form.is_valid() and tag_form.is_valid():
             new_question = form.save()
             new_tag = tag_form.save()
-            new_question.user = request.user
+            new_question.user  = request.user 
             new_question.save()
             return redirect("myquora:home")
 

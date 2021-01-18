@@ -42,7 +42,7 @@ class Category(models.Model):
         super().save(*args, **kwargs)
 
 class Question(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='نویسنده', related_name='questions')
+    author = models.ForeignKey(User,on_delete=models.CASCADE, verbose_name='نویسنده', related_name='questions')
     question_title = models.CharField(max_length=200, verbose_name = "عنوان سوال")
     question_text = RichTextField(blank=True , null=True , verbose_name = "متن سوال")
     slug = models.SlugField(max_length=200 ,unique = True ,allow_unicode=True, verbose_name = "نامك")
